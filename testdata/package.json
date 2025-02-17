@@ -1,0 +1,13 @@
+{
+    "name": "redcross-testdata-generator",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Generates anonymized test data for Red Cross organization API",
+    "main": "anonymize-organizations.js",
+    "scripts": {
+      "generate": "node anonymize-organizations.js"
+    },
+    "dependencies": {
+      "@faker-js/faker": "^8.4.1"
+    }
+  }

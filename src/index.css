@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --rc-red: #ee1d23;
+  --rc-gray: #f5f5f5;
+  --rc-dark-gray: #4a4a4a;
+  --rc-border: #e5e7eb;
+}
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: var(--rc-dark-gray);
+  background-color: #ffffff;
+}
+
+.branch-viewer {
+  @apply container mx-auto px-4 py-8;
+  max-width: 1280px;
+}
+
+.controls {
+  @apply mb-8;
+  background: white;
+  border-bottom: 1px solid var(--rc-border);
+  padding-bottom: 1.5rem;
+}
+
+.view-toggle {
+  @apply flex gap-1 mb-6;
+}
+
+.view-toggle button {
+  @apply px-6 py-2.5 text-base font-semibold transition-all;
+  background: white;
+  color: var(--rc-dark-gray);
+  border: none;
+  position: relative;
+}
+
+.view-toggle button:after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background-color 0.2s;
+}
+
+.view-toggle button:hover:after {
+  background: #f3f3f3;
+}
+
+.view-toggle button.active {
+  color: var(--rc-red);
+}
+
+.view-toggle button.active:after {
+  background: var(--rc-red);
+}
+
+.search-input {
+  @apply w-full mb-4 px-4 py-2.5 rounded-md border transition-colors text-base;
+  border-color: var(--rc-border);
+  background: white;
+}
+
+.search-input:focus {
+  @apply outline-none;
+  border-color: var(--rc-red);
+}
+
+.filter-bar {
+  @apply flex flex-wrap gap-4;
+}
+
+.filter-bar select {
+  @apply px-4 py-2.5 rounded-md border transition-colors text-base bg-white;
+  border-color: var(--rc-border);
+  min-width: 200px;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.filter-bar select:focus {
+  @apply outline-none;
+  border-color: var(--rc-red);
+}
+
+/* Card styles */
+.branch-card, .contact-card {
+  @apply bg-white rounded-lg overflow-hidden transition-all;
+  border: 1px solid var(--rc-border);
+}
+
+.branch-card:hover, .contact-card:hover {
+  @apply shadow-md;
+  border-color: var(--rc-red);
+}
+
+/* Sort controls */
+.sort-controls {
+  @apply inline-flex rounded-md overflow-hidden mb-6;
+  border: 1px solid var(--rc-border);
+}
+
+.sort-controls button {
+  @apply px-4 py-2 text-sm font-medium transition-colors border-r last:border-r-0;
+  border-color: var(--rc-border);
+  background: white;
+  color: var(--rc-dark-gray);
+}
+
+.sort-controls button:hover {
+  color: var(--rc-red);
+}
+
+.sort-controls button.active {
+  background: var(--rc-red);
+  color: white;
+  border-color: var(--rc-red);
+}
+
+/* Grid layouts */
+.grid-layout {
+  @apply grid gap-6;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+/* List view styles */
+.divide-y > div {
+  @apply hover:bg-gray-50 px-4 -mx-4 transition-colors;
+}
+
+/* Sort header styles */
+.sort-header {
+  @apply flex items-center gap-4 mb-6 text-sm font-medium text-[#6b7280] border-b border-gray-200;
+}
+
+.sort-header button {
+  @apply px-4 py-2 relative hover:text-rc-red transition-colors;
+}
+
+.sort-header button.active {
+  @apply text-rc-red;
+}
+
+.sort-header button.active::after {
+  content: '';
+  @apply absolute bottom-0 left-0 right-0 h-0.5 bg-rc-red;
+} 

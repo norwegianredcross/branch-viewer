@@ -9,13 +9,40 @@ The Branch Viewer is designed to be embedded into any webpage, providing a consi
 - Address details
 - Status information
 
+
+## Functionality
+
+browsing:
+- view all branches on a map of Norway
+- view all branches as list or list of cards with collapsible details
+
+Searching:
+- search for a branch by name
+- search for a branch by address
+- search for a branch by activity
+
+filtering:
+- filter branches by type (lokalforening or distrikt)
+- filter branches by status (active or terminated)
+- filter branches by activity
+
+sorting:
+- sort branches by name
+- sort branches by address
+- sort branches by activity
+
+
+
+
+
+
+
 ## Technical Implementation
 
 ### Core Technologies
 - React 18+ with TypeScript for robust development
 - shadcn/ui for pre-built, accessible UI components
 - Tailwind CSS for styling
-- Lodash for efficient data manipulation
 
 ### UI Components
 We use shadcn/ui components for a consistent, accessible interface:
@@ -48,52 +75,155 @@ To include the Branch Viewer in a webpage, add these two lines:
 The component integrates with the Red Cross Organizations API v1.0.0. This API provides detailed information about branches, including branch details, organizational hierarchy, contact information, and geographic location.
 
 ### API Endpoints
-- Base URL: `https://api.redcross.no`
-- Endpoint: `/v1/organizations`
-- Authentication: Bearer token required
+- Base URL: `https://api-dev.redcross.no`
+- Endpoint: `/nrx/v1/organizations`
+- Authentication: none
 
 ### Response Format Example
 ```json
 {
-  "data": {
-    "branches": [{
-      "branchId": "L098",
-      "branchNumber": "0600069",
-      "type": "Lokalforening",
-      "branchName": "Modum Røde Kors",
-      "status": {
-        "isActive": true,
-        "creationDate": "1914-10-16",
-        "terminationDate": null,
-        "isTerminated": false
-      },
-      "parent": {
-        "branchId": "D006",
-        "branchNumber": "0609906",
-        "branchName": "Buskerud Røde Kors",
-        "type": "Distrikt"
-      }
-    }]
-  },
-  "metadata": {
-    "totalCount": 384,
-    "timestamp": "2024-12-13T02:44:12Z"
-  }
-}
+    "data": {
+        "branches": [
+            {
+                "branchId": "L267",
+                "branchNumber": "1700198",
+                "organizationNumber": "971475285",
+                "branchType": "Lokalforening",
+                "branchName": "Kolvereid Røde Kors",
+                "branchStatus": {
+                    "isActive": true,
+                    "creationDate": "1948-05-25",
+                    "terminationDate": null,
+                    "isTerminated": false
+                },
+                "parent": {
+                    "branchId": "D014",
+                    "branchNumber": "1709917",
+                    "branchName": "Nord-Trøndelag RK",
+                    "branchType": "Distrikt"
+                },
+                "organizationDetails": {
+                    "description": "Langfjord Røde Kors",
+                    "organizationLevel": "875880002"
+                },
+                "addresses": {
+                    "municipality": null,
+                    "region": null,
+                    "postal": {
+                        "addressLine1": "Nordre veg 30, Sjøfartsgata 3",
+                        "addressLine2": null,
+                        "postalCode": "7970",
+                        "postOffice": "KOLVEREID"
+                    },
+                    "visiting": null
+                },
+                "communicationChannels": {
+                    "phone": "",
+                    "email": "kolvereid@rodekors.org",
+                    "web": null
+                },
+                "geometry": null,
+                "branchContacts": [
+                    {
+                        "role": "Nestleder",
+                        "firstName": "Sten",
+                        "lastName": "Johansen",
+                        "email": "sten.johansen@rodekors.org",
+                        "phone": "+47 96232866",
+                        "jobTitle": null,
+                        "isVolunteer": true,
+                        "isMember": true,
+                        "memberNumber": "7146223"
+                    },
+                    {
+                        "role": "Webredaktør",
+                        "firstName": "Webredaktør i Kolvereid Røde Kors",
+                        "lastName": "id: 23",
+                        "email": "kolvereid@rodekors.org",
+                        "phone": null,
+                        "jobTitle": null,
+                        "isVolunteer": true,
+                        "isMember": true,
+                        "memberNumber": "7146223"
+                    },
+                    {
+                        "role": "Leder",
+                        "firstName": "Kari",
+                        "lastName": "Strøm",
+                        "email": "kari.strom@rodekors.org",
+                        "phone": "+47 95023330",
+                        "jobTitle": null,
+                        "isVolunteer": true,
+                        "isMember": true,
+                        "memberNumber": "5516274"
+                    }
+                ],
+                "branchActivities": [
+                    "Kolvereid Røde Kors Kursholder",
+                    "Kolvereid Røde Kors Flyktningeguide",
+                    "Kolvereid Røde Kors Beredskapsvakt",
+                    "Kolvereid Røde Kors Besøkstjeneste",
+                    "Kolvereid Røde Kors Hjelpekorps"
+                ]
+            },
+        ]
+    },
+    "metadata": {
+        "totalCount": 384,
+        "timestamp": "2025-02-17T14:16:57.819Z"
+    }
+}            
 ```
 
 ### Data Structures
 
 #### Branch Information
+
 Each branch contains:
-- `branchId`: Unique identifier (e.g., "L098")
-- `branchNumber`: Organization number (e.g., "0600069")
-- `type`: Either "Lokalforening" or "Distrikt"
-- `branchName`: Name of the branch
-- `status`: Activity status including:
-  - Creation date
-  - Termination date (if applicable)
-  - Active status
+
+- `branchId`: Unique identifier (e.g., "L267")
+- `branchNumber`: Organization number (e.g., "1700198")
+- `branchType`: Either "Lokalforening" or "Distrikt"
+- `organizationNumber`: Organization number (e.g., "971475285") can be linked to https://data.brreg.no/enhetsregisteret/api/enheter/971475285
+- `branchName`: Name of the branch (e.g., "Kolvereid Røde Kors")
+- `branchStatus`: Status of the branch
+  - `isActive`: Boolean
+  - `creationDate`: Date of creation eg "1948-05-25"
+  - `terminationDate`: Date of termination or null
+  - `isTerminated`: Boolean
+- `parent`: Parent organization details
+  - `branchId`: Unique identifier (e.g., "D014")
+  - `branchNumber`: Organization number (e.g., "1709917")
+  - `branchName`: Name of the parent organization (e.g., "Nord-Trøndelag RK")
+  - `branchType`: Either "Lokalforening" or "Distrikt"
+- `organizationDetails`: Details about the organization
+  - `description`: Description of the organization (e.g., "Langfjord Røde Kors")
+  - `organizationLevel`: Organization level (e.g., "875880002")
+- `addresses`: Address details
+  - `municipality`: Municipality (e.g., "KOLVEREID") or null
+  - `region`: Region (e.g., "TRONDHEIM") or null
+  - `postal`: Postal address details
+    - `addressLine1`: First line of address (e.g., "Nordre veg 30, Sjøfartsgata 3")
+    - `addressLine2`: Second line of address or null
+    - `postalCode`: Postal code (e.g., "7970")
+    - `postOffice`: Post office (e.g., "KOLVEREID")
+  - `visiting`: Visiting address details or null
+- `communicationChannels`: Communication channels
+  - `phone`: Phone number (e.g., "+47 96232866") or null
+  - `email`: Email address (e.g., "kolvereid@rodekors.org") or null
+  - `web`: Website URL (e.g., "https://www.rodekors.org/kolvereid") or null
+- `geometry`: Geometry details or null
+- `branchContacts`: Contacts for the branch
+  - `role`: Role of the contact (e.g., "Leder")
+  - `firstName`: First name of the contact (e.g., "Sten")
+  - `lastName`: Last name of the contact (e.g., "Johansen")
+  - `email`: Email address (e.g., "sten.johansen@rodekors.org")
+  - `phone`: Phone number (e.g., "+47 96232866")
+  - `jobTitle`: Job title of the contact or null
+  - `isVolunteer`: Boolean
+  - `isMember`: Boolean
+  - `memberNumber`: Member number (e.g., "7146223")
+- `branchActivities`: Array of strings containing the activities of the branch
 
 #### Hierarchical Structure
 Branches are organized hierarchically:
@@ -102,145 +232,16 @@ Branches are organized hierarchically:
   - Parent name
   - Parent type
 
-#### Contact Information
-- Multiple contacts per branch
-- Roles (Leder, Nestleder)
-- Contact details:
-  - Name
-  - Email
-  - Phone (Norwegian format)
-  - Volunteer/Member status
 
-#### Address Information
-Supports multiple address types:
-- Postal address
-- Visiting address
-- Municipality and region details
-- Norwegian postal code format
+## Project Structure
 
-#### Communication Channels
-- Phone numbers (Norwegian format: "+47 90056438")
-- Email addresses
-- Website URLs
-
-### Error Handling
-The API returns standard HTTP status codes:
-- 200: Successful response
-- 400: Bad request
-- 401: Unauthorized
-- 403: Forbidden
-- 500: Internal server error
-
-Error responses include:
-- Error message
-- Error code
-- Additional details when available
-
-## Development
-
-### Setup
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Start development server:
-```bash
-npm run dev
-```
-
-3. Build for production:
-```bash
-npm run build
-```
-
-### Project Structure
 ```
 branch-viewer/
 ├── src/                    # React + TypeScript development files
-│   ├── components/         # React components
-│   │   ├── BranchTree/    # Tree view components
-│   │   └── shared/        # Shared components
-│   ├── utils/             # Helper functions
-│   ├── types/             # TypeScript definitions
-│   └── styles/            # CSS and Tailwind styles
 ├── dist/                   # Built files for distribution
 │   ├── branch-viewer.js    # Standalone bundled JS
 │   └── branch-viewer.css   # Standalone bundled CSS
-└── public/                 # Static files for development
+
 ```
 
-### Type Definitions
-The project includes TypeScript definitions generated from the OpenAPI specification, ensuring type safety and accurate API integration. Key types include:
-
-```typescript
-interface Branch {
-  branchId: string;
-  branchNumber: string;
-  type: "Lokalforening" | "Distrikt";
-  branchName: string;
-  status: BranchStatus;
-  parent?: ParentOrganization;
-  contacts: Contact[];
-  addresses: AddressInfo;
-}
-
-interface BranchStatus {
-  isActive: boolean;
-  creationDate: string;
-  terminationDate: string | null;
-  isTerminated: boolean;
-}
-
-interface Contact {
-  role: "Leder" | "Nestleder";
-  firstName: string | null;
-  lastName: string | null;
-  email: string | null;
-  phone: string | null;
-  isVolunteer: boolean;
-  isMember: boolean;
-}
-```
-
-### Data Validation
-The component implements validation for:
-- Norwegian organization numbers (9 digits)
-- Norwegian phone numbers (international format)
-- Norwegian postal codes (4 digits)
-- Valid email addresses
-- URI format for websites
-
-## Browser Support
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- IE11 is not supported
-
-## Dependencies
-- React 18+
-- shadcn/ui components
-- Tailwind CSS
-- Lodash
-- TypeScript 5+
-
-## Development Dependencies
-- Vite
-- PostCSS
-- TypeScript
-- ESLint
-- Prettier
-
-## Contributing
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-Please ensure you:
-- Follow the existing code style
-- Add/update tests as needed
-- Update documentation as needed
-- Follow standard git commit message conventions
 
