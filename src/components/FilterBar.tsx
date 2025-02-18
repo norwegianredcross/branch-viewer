@@ -1,3 +1,13 @@
+interface FilterBarProps {
+  onFilter: (filters: {
+    type: string;
+    status: string;
+    activity: string;
+    role: string;
+  }) => void;
+  showRoleFilter?: boolean;
+}
+
 export function FilterBar({ onFilter, showRoleFilter = false }: FilterBarProps) {
   return (
     <div className="filter-bar">
