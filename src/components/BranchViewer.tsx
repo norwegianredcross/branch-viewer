@@ -13,7 +13,7 @@ type ViewMode = 'list' | 'map' | 'contacts';
 export function BranchViewer() {
   const [branches, setBranches] = React.useState<Branch[]>([]);
   const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+  const [error] = React.useState<string | null>(null);
   const [viewMode, setViewMode] = React.useState<ViewMode>('list');
   const [searchTerm, setSearchTerm] = React.useState('');
   const [filters, setFilters] = React.useState({

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Branch } from '../types/Branch';
 import { BranchCard } from './BranchCard';
 
